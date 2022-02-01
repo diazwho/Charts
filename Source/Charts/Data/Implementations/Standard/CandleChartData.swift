@@ -10,6 +10,9 @@
 //
 
 import Foundation
+#if !os(OSX)
+    import UIKit
+#endif
 
 open class CandleChartData: BarLineScatterCandleBubbleChartData
 {
@@ -22,4 +25,11 @@ open class CandleChartData: BarLineScatterCandleBubbleChartData
     {
         super.init(dataSets: dataSets)
     }
+
+    #if !os(OSX)
+    /// Corners to apply the corner radius
+    ///
+    /// **default**: []
+    @objc open var cornersRadius: UIRectCorner = []
+    #endif
 }

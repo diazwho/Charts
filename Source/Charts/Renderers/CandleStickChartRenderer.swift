@@ -11,6 +11,9 @@
 
 import Foundation
 import CoreGraphics
+#if !os(OSX)
+    import UIKit
+#endif
 
 open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
 {
@@ -169,7 +172,21 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     if dataSet.isDecreasingFilled
                     {
                         context.setFillColor(color.cgColor)
+                        #if !os(OSX)
+                        guard let candleData = dataProvider.candleData else {
+                            context.fill(_bodyRect)
+                            continue
+                        }
+                        let radius = CGFloat(_bodyRect.size.width / 2.0)
+                        let bezierPath = UIBezierPath(roundedRect: _bodyRect,
+                                                      byRoundingCorners: candleData.cornersRadius,
+                                                      cornerRadii: CGSize(width: radius, height:  radius))
+                        context.addPath(bezierPath.cgPath)
+
+                        context.drawPath(using: .fill)
+                        #else
                         context.fill(_bodyRect)
+                        #endif
                     }
                     else
                     {
@@ -186,7 +203,21 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     if dataSet.isIncreasingFilled
                     {
                         context.setFillColor(color.cgColor)
+                        #if !os(OSX)
+                        guard let candleData = dataProvider.candleData else {
+                            context.fill(_bodyRect)
+                            continue
+                        }
+                        let radius = CGFloat(_bodyRect.size.width / 2.0)
+                        let bezierPath = UIBezierPath(roundedRect: _bodyRect,
+                                                      byRoundingCorners: candleData.cornersRadius,
+                                                      cornerRadii: CGSize(width: radius, height:  radius))
+                        context.addPath(bezierPath.cgPath)
+
+                        context.drawPath(using: .fill)
+                        #else
                         context.fill(_bodyRect)
+                        #endif
                     }
                     else
                     {
