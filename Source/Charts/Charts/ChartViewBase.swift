@@ -96,6 +96,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Font to be used for the no data text.
     @objc open var noDataFont = NSUIFont.systemFont(ofSize: 12)
+
+    /// force to show the noData label
+    @objc open var noDataForced = false
     
     /// color of the no data text
     @objc open var noDataTextColor: NSUIColor = .labelOrBlack
@@ -320,7 +323,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         let frame = self.bounds
 
-        if _data === nil && noDataText.count > 0
+        if _data === nil && noDataText.count > 0 && !noDataForced
         {
             context.saveGState()
             defer { context.restoreGState() }
